@@ -24,17 +24,11 @@ class MyCallbacks : public CallbackInterface {
 public:
   // Constructor. We use values of -1 for attributes that, at the start of
   // the program, have no meaningful/"true" value.
-  MyCallbacks(ShaderProgram &shader, int screenWidth, int screenHeight)
-      : shader(shader), currentFrame(0), leftMouseActiveVal(false),
+  MyCallbacks(int screenWidth, int screenHeight)
+      : currentFrame(0), leftMouseActiveVal(false),
         lastLeftPressedFrame(-1), lastRightPressedFrame(-1), screenMouseX(-1.0),
         screenMouseY(-1.0), screenWidth(screenWidth),
         screenHeight(screenHeight) {}
-
-  virtual void keyCallback(int key, int scancode, int action, int mods) {
-    if (key == GLFW_KEY_R && action == GLFW_PRESS) {
-      shader.recompile();
-    }
-  }
 
   virtual void mouseButtonCallback(int button, int action, int mods) {
     // If we click the mouse on the ImGui window, we don't want to log that
@@ -140,8 +134,6 @@ private:
   int lastLeftPressedFrame;
   int lastRightPressedFrame;
 
-  ShaderProgram &shader;
-
   // Converts GL coordinates to screen coordinates.
   glm::vec2 glPosToScreenCoords(glm::vec2 glPos) {
     // Convert the [-1, 1] range to [0, 1]
@@ -172,10 +164,7 @@ int main(int argc, char *argv[]) {
   GLDebug::enable();
 
   // SHADERS
-  ShaderProgram shader("shaders/test.vert", "shaders/test.frag");
-
-  auto cb = std::make_shared<MyCallbacks>(shader, window.getWidth(),
-                                          window.getHeight());
+  auto cb = std::make_shared<MyCallbacks>(window.getWidth(), window.getHeight());
   // CALLBACKS
   window.setCallbacks(cb);
   window.setupImGui(); // Make sure this call comes AFTER GLFW callbacks
@@ -213,8 +202,6 @@ int main(int argc, char *argv[]) {
 
     ImGui::End();
     ImGui::Render();
-
-    shader.use();
 
     glEnable(GL_FRAMEBUFFER_SRGB);
     glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
