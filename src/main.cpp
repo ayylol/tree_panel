@@ -166,7 +166,7 @@ int main(int argc, char *argv[]) {
 
   // WINDOW
   glfwInit();
-  Window window(800, 800, "TreePanel (DEBUG)"); // could set callbacks at
+  Window window(800, 800, "TreePanel (PANEL)"); // could set callbacks at
                                                 // construction if desired
 
   GLDebug::enable();
