@@ -244,6 +244,10 @@ void json_to_gui(json &option, std::string name) {
 			option = temp;
 		}else if(option.is_string()){
 
+		}else if(option.is_boolean()){
+			bool temp = option.get<bool>();
+			ImGui::Checkbox(name.c_str(),&temp);
+			option = temp;
 		}
 }
 
