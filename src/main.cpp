@@ -264,6 +264,8 @@ std::pair<float, float> get_range_f(std::string name) {
 		return std::make_pair(0.0f, 360.0f);
 	} else if (name == "segment_length"){
 		return std::make_pair(0.001f, 0.1f);
+	}else if(name.find("eval") != std::string::npos){
+		return std::make_pair(0.f, 10.0f);
 	}
 	return std::make_pair(0.f, 1.0f);
 }
