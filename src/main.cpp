@@ -256,17 +256,17 @@ std::pair<float, float> get_range_f(std::string name) {
 		return std::make_pair(0.1f, 20.0f);
 	} else if (name == "range") {
 		return std::make_pair(0.001f, 0.1f);
-	} else if (name == "mesh_iso") {
-		return std::make_pair(0.0f, 20.0f);
-	} else if (name == "reject_iso"){
-		return std::make_pair(0.0f, 100.0f);
+	} else if (name == "local_spread") {
+		return std::make_pair(0.001f, 0.1f);
 	} else if (name == "max_angle") {
 		return std::make_pair(0.0f, 360.0f);
 	} else if (name == "segment_length"){
 		return std::make_pair(0.001f, 0.1f);
 	}else if(name.find("eval") != std::string::npos){
 		return std::make_pair(0.f, 10.0f);
-	}
+	} else if (name.find("iso") != std::string::npos) {
+		return std::make_pair(0.0f, 50.0f);
+    }
 	return std::make_pair(0.f, 1.0f);
 }
 std::pair<int, int> get_range_i(std::string name) {
