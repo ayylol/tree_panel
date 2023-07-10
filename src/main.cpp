@@ -17,6 +17,9 @@ using json = nlohmann::json;
 void json_to_gui(json &option, std::string name);
 std::pair<float,float> get_range_f(std::string name);
 std::pair<int, int> get_range_i(std::string name);
+std::vector<std::string> get_string_options(std::string name);
+
+char string_buffer[256];
 
 // CALLBACKS
 class MyCallbacks : public CallbackInterface {
@@ -243,12 +246,27 @@ void json_to_gui(json &option, std::string name) {
 			ImGui::SliderFloat(name.c_str(),&temp,min,max);
 			option = temp;
 		}else if(option.is_string()){
+            std::vector<std::string> strings = get_string_options(name);
+            // FIXME: Change to allow for string options
+            if (strings.empty()||true){
+                strncpy(string_buffer, option.get<std::string>().c_str(), 256);
+                ImGui::InputText(name.c_str(), string_buffer, 256);
+                option = string_buffer;
+            }else{
 
+            }
 		}else if(option.is_boolean()){
 			bool temp = option.get<bool>();
 			ImGui::Checkbox(name.c_str(),&temp);
 			option = temp;
 		}
+}
+
+std::vector<std::string> get_string_options(std::string name){
+    if ( name == "method" ){
+        return {"canon_dir","local_pos_matching","heading_dir"};
+    }
+    return {};
 }
 
 std::pair<float, float> get_range_f(std::string name) {
